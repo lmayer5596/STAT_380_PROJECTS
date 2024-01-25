@@ -7,8 +7,15 @@ predict_merge <- merge(test, predict, all.x = TRUE, by = c('Cond', 'Qual', 'Full
 #finds the mean SalePrice of all rows
 mean_val <- train[, mean(SalePrice)]
 
-#removes 'test_' from the Id column, turns the Id number into a numeric type, orders the rows by Id number, and pastes 'test_' before the Id number, then selects only Id and SalePrice columns
-predict_merge <- predict_merge[, Id := as.numeric(substring(Id, 6))][order(Id)][, Id := str_glue('test_{as.character(Id)}')][, c('Id', 'SalePrice')]
+#creates a number column for sorting purposes
+predict_merge$sort_col <- gsub('test_', '', predict_merge$Id)
+#turns the number into a numeric type
+predict_merge$sort_col <- as.numeric(predict_merge$sort_col)
+#orders the cases by number
+predict_merge <- predict_merge[order(sort_col)]
+#selects Id and SalePrice for submission
+predict_merge <- predict_merge[, c('Id', 'SalePrice')]
+
 #replaces any empty SalePrice cells with the mean of all rows
 predict_merge <- predict_merge[is.na(SalePrice), SalePrice := mean_val]
 
