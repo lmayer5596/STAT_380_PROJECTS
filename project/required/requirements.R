@@ -1,2 +1,2 @@
-install.packages(data.table)
-install.packages(stringr)
+install.packages('data.table')
+install.packages('stringr')
