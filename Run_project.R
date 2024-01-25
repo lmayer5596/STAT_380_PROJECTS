@@ -45,3 +45,4 @@ predict_merge <- predict_merge[is.na(SalePrice), SalePrice := mean_val]
 #turns the final data.table into a csv for submission
 fwrite(predict_merge, './project/volume/data/processed/prediction.csv')
 
+#changing
