@@ -22,11 +22,12 @@ train <- all_data[grep('^train', Id)]
 test <- all_data[grep('^test', Id)][, !('SalePrice')]
 
 #takes the mean SalePrice from a group of the selected variables
-predict <- train[,.(SalePrice = mean(SalePrice, na.rm = TRUE)), by = c('Cond', 'Qual', 'FullBath', 'TotRmsAbvGrd')]
-
+predict <- train[,.(SalePrice = mean(SalePrice, na.rm = TRUE)), by = c('Cond', 'FullBath', 'CentralAir')]
+View(predict)
 #merges the previous table to the test data, this gives an average SalePrice to rows which match the specific groups from above
-predict_merge <- merge(test, predict, all.x = TRUE, by = c('Cond', 'Qual', 'FullBath', 'TotRmsAbvGrd'))
+predict_merge <- merge(test, predict, all.x = TRUE, by = c('Cond', 'FullBath', 'CentralAir'))
 
+View(test)
 #finds the mean SalePrice of all rows
 mean_val <- train[, mean(SalePrice)]
 
@@ -44,5 +45,3 @@ predict_merge <- predict_merge[is.na(SalePrice), SalePrice := mean_val]
 
 #turns the final data.table into a csv for submission
 fwrite(predict_merge, './project/volume/data/processed/prediction.csv')
-
-#changing
