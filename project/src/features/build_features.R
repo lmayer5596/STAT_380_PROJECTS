@@ -21,6 +21,11 @@ test <- all_data[grep('^test', Id)][, .(qc_code, LotArea, TotalBsmtSF, GrLivArea
 #makes all SalePrice values equal to 0
 test$SalePrice <- 0
 
+format <- fread('./project/volume/data/raw/example_sub.csv')
+format$SalePrice <- 0
+
 fwrite(test, './project/volume/data/interim/test.csv')
 fwrite(train, './project/volume/data/interim/train.csv')
 fwrite(all_data, './project/volume/data/interim/all_data.csv')
+fwrite(format, './project/volume/data/interim/format.csv')
+

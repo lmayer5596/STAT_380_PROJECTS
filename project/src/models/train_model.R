@@ -2,6 +2,7 @@ source('./project/src/features/build_features.R')
 
 train <- fread('./project/volume/data/interim/train.csv')
 test <- fread('./project/volume/data/interim/test.csv')
+format <- fread('./project/volume/data/interim/format.csv')
 master <- rbind(test, train)
 
 train_y <- train$SalePrice
@@ -23,6 +24,10 @@ saveRDS(lm_model, '.project/volume/models/SalePrice_lm.model')
 
 test$SalePrice <- predict(lm_model, newdata = test)
 View(test)
+
+format$SalePrice <- test$SalePrice
+
+
 #creates a number column for sorting purposes
 predict_merge$sort_col <- gsub('test_', '', predict_merge$Id)
 #turns the number into a numeric type
