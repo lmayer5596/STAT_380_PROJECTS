@@ -26,20 +26,8 @@ test$SalePrice <- predict(lm_model, newdata = test)
 View(test)
 
 format$SalePrice <- test$SalePrice
-
-
-#creates a number column for sorting purposes
-predict_merge$sort_col <- gsub('test_', '', predict_merge$Id)
-#turns the number into a numeric type
-predict_merge$sort_col <- as.numeric(predict_merge$sort_col)
-#orders the cases by number
-predict_merge <- predict_merge[order(sort_col)]
-#selects Id and SalePrice for submission
-predict_merge <- predict_merge[, c('Id', 'SalePrice')]
-
-#replaces any empty SalePrice cells with the mean of all rows
-predict_merge <- predict_merge[is.na(SalePrice), SalePrice := mean_val]
+format
 
 #turns the final data.table into a csv for submission
-fwrite(predict_merge, './project/volume/data/processed/prediction.csv')
+fwrite(format, './project/volume/data/processed/prediction.csv')
 
