@@ -1,7 +1,6 @@
 #source('./project/required/requirements.R')
 
 library(data.table)
-library(stringr)
 library(caret)
 library(Metrics)
 

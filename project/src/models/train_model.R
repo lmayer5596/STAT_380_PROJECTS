@@ -26,7 +26,6 @@ test$SalePrice <- predict(lm_model, newdata = test)
 View(test)
 
 format$SalePrice <- test$SalePrice
-format
 
 #turns the final data.table into a csv for submission
 fwrite(format, './project/volume/data/processed/prediction.csv')
