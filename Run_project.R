@@ -5,21 +5,6 @@ source('./project/src/models/train_model.R')
 library(data.table)
 library(stringr)
 
-#reads in the full data set
-main_data <- fread("./project/volume/data/raw/Stat_380_housedata.csv")
-
-#reads in the cond and qual data set
-QC_data <- fread('./project/volume/data/raw/Stat_380_QC_table.csv')
-
-#merges the two data sets by the qc_code
-all_data <- merge(main_data, QC_data, all.x = TRUE)
-fwrite(all_data, './project/volume/data/interim/all_data.csv')
-
-#selects the rows which are labelled as train
-train <- all_data[grep('^train', Id)]
-
-#selects the rows which are labelled as test AND removes the empty SalePrice column
-test <- all_data[grep('^test', Id)][, !('SalePrice')]
 
 #takes the mean SalePrice from a group of the selected variables
 predict <- train[,.(SalePrice = mean(SalePrice, na.rm = TRUE)), by = c('Cond', 'FullBath', 'CentralAir')]
@@ -45,3 +30,9 @@ predict_merge <- predict_merge[is.na(SalePrice), SalePrice := mean_val]
 
 #turns the final data.table into a csv for submission
 fwrite(predict_merge, './project/volume/data/processed/prediction.csv')
+
+
+#linear regression
+#dummies <- dummyVars(SalePrice ~ ., data = all_data)
+#train <- predict(dummies, newdata = train)
+#test <- predict(dummies, newdata = test)

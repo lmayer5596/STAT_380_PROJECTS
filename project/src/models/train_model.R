@@ -1,12 +1,28 @@
-#takes the mean SalePrice from a group of the selected variables
-predict <- train[,.(SalePrice = mean(SalePrice, na.rm = TRUE)), by = c('Cond', 'Qual', 'FullBath', 'TotRmsAbvGrd')]
+source('./project/src/features/build_features.R')
 
-#merges the previous table to the test data, this gives an average SalePrice to rows which match the specific groups from above
-predict_merge <- merge(test, predict, all.x = TRUE, by = c('Cond', 'Qual', 'FullBath', 'TotRmsAbvGrd'))
+train <- fread('./project/volume/data/interim/train.csv')
+test <- fread('./project/volume/data/interim/test.csv')
+master <- rbind(test, train)
 
-#finds the mean SalePrice of all rows
-mean_val <- train[, mean(SalePrice)]
+train_y <- train$SalePrice
 
+dummies <- dummyVars(SalePrice ~ ., data = master)
+train <- predict(dummies, newdata = train)
+test <- predict(dummies, newdata = test)
+
+train <- data.table(train)
+train$SalePrice <- train_y
+test <- data.table(test)
+
+lm_model <- lm(SalePrice ~ ., data = train)
+
+summary(lm_model)
+
+saveRDS(dummies, './project/volume/models/SalePrice_lm.dummies')
+saveRDS(lm_model, '.project/volume/models/SalePrice_lm.model')
+
+test$SalePrice <- predict(lm_model, newdata = test)
+View(test)
 #creates a number column for sorting purposes
 predict_merge$sort_col <- gsub('test_', '', predict_merge$Id)
 #turns the number into a numeric type
