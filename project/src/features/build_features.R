@@ -14,9 +14,9 @@ QC_data <- fread('./project/volume/data/raw/Stat_380_QC_table.csv')
 all_data <- merge(main_data, QC_data, all.x = TRUE)
 
 #selects the rows which are labelled as train
-train <- all_data[grep('^train', Id)][, .(LotArea, TotalBsmtSF, GrLivArea, SalePrice)]
+train <- all_data[grep('^train', Id)][, .(LotArea, PoolArea, CentralAir, Cond, SalePrice)]
 #selects the rows which are labelled as test
-test <- all_data[grep('^test', Id)][, .(Id, LotArea, TotalBsmtSF, GrLivArea, SalePrice)]
+test <- all_data[grep('^test', Id)][, .(Id, LotArea, PoolArea, CentralAir, Cond, SalePrice)]
 #makes all SalePrice values equal to 0
 test$SalePrice <- 0
 
