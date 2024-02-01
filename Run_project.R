@@ -112,3 +112,5 @@ format$SalePrice <- test$SalePrice
 fwrite(format, './project/volume/data/processed/prediction.csv')
 
 
+#LOGISTIC REGRESSION
+
