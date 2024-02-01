@@ -23,7 +23,6 @@ saveRDS(dummies, './project/volume/models/SalePrice_lm.dummies')
 saveRDS(lm_model, '.project/volume/models/SalePrice_lm.model')
 
 test$SalePrice <- predict(lm_model, newdata = test)
-View(test)
 
 format$SalePrice <- test$SalePrice
 
