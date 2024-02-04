@@ -20,7 +20,7 @@ lm_model <- lm(SalePrice ~ ., data = train)
 summary(lm_model)
 
 saveRDS(dummies, './project/volume/models/SalePrice_lm.dummies')
-saveRDS(lm_model, '.project/volume/models/SalePrice_lm.model')
+saveRDS(lm_model, './project/volume/models/SalePrice_lm.model')
 
 test$SalePrice <- predict(lm_model, newdata = test)
 
