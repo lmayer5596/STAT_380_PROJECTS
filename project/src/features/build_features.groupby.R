@@ -1,9 +1,3 @@
-source('./project/required/requirements.R')
-
-library(data.table)
-library(caret)
-library(Metrics)
-
 #reads in the full data set
 main_data <- fread("./project/volume/data/raw/Stat_380_housedata.csv")
 
@@ -14,9 +8,9 @@ QC_data <- fread('./project/volume/data/raw/Stat_380_QC_table.csv')
 all_data <- merge(main_data, QC_data, all.x = TRUE)
 
 #selects the rows which are labelled as train
-train <- all_data[grep('^train', Id)][, .(YearBuilt, LotArea, GrLivArea, CentralAir, TotalBsmtSF, Qual, SalePrice)]
+train <- all_data[grep('^train', Id)][, .(FullBath, TotRmsAbvGrd, Cond, Qual, SalePrice)]
 #selects the rows which are labelled as test
-test <- all_data[grep('^test', Id)][, .(Id, YearBuilt, LotArea, GrLivArea, CentralAir, TotalBsmtSF, Qual, SalePrice)]
+test <- all_data[grep('^test', Id)][, .(Id, FullBath, TotRmsAbvGrd, Cond, Qual, SalePrice)]
 #makes all SalePrice values equal to 0
 test$SalePrice <- 0
 

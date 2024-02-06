@@ -1,5 +1,3 @@
-source('./project/src/features/build_features.R')
-
 #GROUPING BY CATEGORICAL VARIABLES WITH GROUP MEANS
 
 #takes the mean SalePrice from a group of the selected variables
